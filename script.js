@@ -230,6 +230,8 @@ async function saveAsImage() {
             div.style.paddingBottom = '10px';
         } else if (input.classList.contains('char-name-input')) {
             div.style.borderBottom = 'none';
+            // 🌟 이미지로 저장할 때 이름과 한마디 사이에 강제로 빈 공간(여백)을 추가합니다!
+            div.style.marginBottom = '35px'; 
         } else if (input.classList.contains('song-title-input')) {
             div.style.fontWeight = 'bold';
         }
