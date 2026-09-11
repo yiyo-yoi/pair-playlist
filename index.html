@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>캐릭터 플레이리스트 만들기</title>
+    <!-- 🌟 브라우저 캐시를 무시하고 최신 스타일을 강제로 읽어오게 수정 -->
     <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
@@ -25,7 +26,7 @@
         <!-- 페어 이름 -->
         <div class="pair-name-container">
             <div class="pair-name-box">
-                <input type="text" id="pairNameInput" class="pair-name-input" placeholder="페어 이름을 입력하세요" oninput="saveDataToLocalStorage()">
+                <input type="text" id="pairNameInput" class="pair-name-input" placeholder="페어 이름을 입력하세요" oninput="saveDataToStorage()">
             </div>
         </div>
 
@@ -37,8 +38,8 @@
                     <img id="img-char1" src="" alt="캐릭터 1 사진">
                     <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'img-char1', 1)">
                 </label>
-                <input type="text" id="charName1" class="char-name-input" placeholder="캐릭터 1 이름" oninput="saveDataToLocalStorage()">
-                <textarea id="quote1" class="quote-input" placeholder="캐릭터 1의 한 마디" rows="1" oninput="autoResize(this); saveDataToLocalStorage()"></textarea>
+                <input type="text" id="charName1" class="char-name-input" placeholder="캐릭터 1 이름" oninput="saveDataToStorage()">
+                <textarea id="quote1" class="quote-input" placeholder="캐릭터 1의 한 마디" rows="1" oninput="autoResize(this); saveDataToStorage()"></textarea>
                 
                 <div class="playlist-container">
                     <div class="search-box">
@@ -57,8 +58,8 @@
                     <img id="img-char2" src="" alt="캐릭터 2 사진">
                     <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'img-char2', 2)">
                 </label>
-                <input type="text" id="charName2" class="char-name-input" placeholder="캐릭터 2 이름" oninput="saveDataToLocalStorage()">
-                <textarea id="quote2" class="quote-input" placeholder="캐릭터 2의 한 마디" rows="1" oninput="autoResize(this); saveDataToLocalStorage()"></textarea>
+                <input type="text" id="charName2" class="char-name-input" placeholder="캐릭터 2 이름" oninput="saveDataToStorage()">
+                <textarea id="quote2" class="quote-input" placeholder="캐릭터 2의 한 마디" rows="1" oninput="autoResize(this); saveDataToStorage()"></textarea>
                 
                 <div class="playlist-container">
                     <div class="search-box">
@@ -72,7 +73,7 @@
         </div>
 
         <!-- 워터마크 -->
-        <div class="watermark">이요 @lies_are_white</div>
+        <div class="watermark">By. 닉네임 / 아이디</div>
     </div>
 
     <!-- html2canvas 라이브러리 -->
