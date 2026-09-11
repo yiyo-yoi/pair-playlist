@@ -152,8 +152,8 @@ body {
 }
 
 .char-name-input {
-    margin-top: 60px; /* 🌟 사진과 이름 사이의 위쪽 여백을 넓힙니다 */
-    margin-bottom: 0px; 
+    margin-top: 20px;    /* 사진과 이름 사이 간격 */
+    margin-bottom: 20px; /* 이름과 한마디 사이 간격 */
     width: 80%;
     text-align: center;
     font-size: 1.4rem;
