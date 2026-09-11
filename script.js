@@ -225,13 +225,13 @@ async function saveAsImage() {
         div.style.wordBreak = 'break-all';
         div.style.whiteSpace = 'pre-wrap';
         
-       if (input.classList.contains('pair-name-input')) {
+      if (input.classList.contains('pair-name-input')) {
             div.style.borderBottom = '2px solid var(--text-color)';
             div.style.paddingBottom = '10px';
         } else if (input.classList.contains('char-name-input')) {
             div.style.borderBottom = 'none';
-            div.style.marginTop = '60px'; // 🌟 이미지 저장 시 사진과 이름 사이 위쪽 여백 강제 적용
-            div.style.marginBottom = '35px'; // 이름과 한마디 사이 아래쪽 여백
+            div.style.marginTop = '20px';    // 이미지 저장 시 위쪽 간격
+            div.style.marginBottom = '20px'; // 이미지 저장 시 아래쪽 간격
         } else if (input.classList.contains('song-title-input')) {
             div.style.fontWeight = 'bold';
         }
