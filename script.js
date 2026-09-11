@@ -3,6 +3,11 @@ function autoResize(textarea) {
     textarea.style.height = (textarea.scrollHeight) + 'px';
 }
 
+// [사진 변경] 버튼을 눌렀을 때 숨겨진 file input을 작동시키는 함수
+function triggerFileInput(charNum) {
+    document.getElementById(`file-char${charNum}`).click();
+}
+
 function handleImageUpload(event, charNum) {
     const file = event.target.files[0];
     if (file) {
@@ -13,16 +18,16 @@ function handleImageUpload(event, charNum) {
             imgElement.style.display = 'block';
             imgElement.previousElementSibling.style.display = 'none';
             
-            // 초기화
+            // 새 사진을 올리면 위치와 줌 초기화
             imgElement.dataset.x = 0;
             imgElement.dataset.y = 0;
             imgElement.dataset.scale = 1;
             imgElement.style.transform = `translate(0px, 0px) scale(1)`;
             
-            const rangeInput = document.querySelector(`#control-${charNum} input[type="range"]`);
+            const rangeInput = document.querySelector(`#control-container-${charNum} input[type="range"]`);
             if (rangeInput) rangeInput.value = 1;
             
-            document.getElementById(`control-${charNum}`).style.display = 'flex';
+            document.getElementById(`control-container-${charNum}`).style.display = 'flex';
             saveDataToStorage();
         }
         reader.readAsDataURL(file);
@@ -43,11 +48,14 @@ function zoomImage(event, charNum) {
 
 // 사진 마우스/터치 드래그 이동 기능
 function startDrag(event, charNum) {
-    if (event.target.tagName === 'INPUT') return;
-    event.preventDefault();
-    
+    // 최초 클릭 시 플레이스홀더 영역이면 파일 업로드 창을 띄움
     const img = document.getElementById(`img-char${charNum}`);
-    if (img.style.display !== 'block') return;
+    if (img.style.display !== 'block') {
+        triggerFileInput(charNum);
+        return;
+    }
+
+    event.preventDefault();
 
     let startX = event.clientX || event.touches[0].clientX;
     let startY = event.clientY || event.touches[0].clientY;
@@ -250,10 +258,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 img1.dataset.y = data.img1State.y;
                 img1.dataset.scale = data.img1State.scale;
                 img1.style.transform = `translate(${data.img1State.x}px, ${data.img1State.y}px) scale(${data.img1State.scale})`;
-                const range1 = document.querySelector(`#control-1 input[type="range"]`);
+                const range1 = document.querySelector(`#control-container-1 input[type="range"]`);
                 if (range1) range1.value = data.img1State.scale;
             }
-            document.getElementById('control-1').style.display = 'flex';
+            document.getElementById('control-container-1').style.display = 'flex';
         }
 
         const q2 = document.getElementById('quote2');
@@ -271,10 +279,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 img2.dataset.y = data.img2State.y;
                 img2.dataset.scale = data.img2State.scale;
                 img2.style.transform = `translate(${data.img2State.x}px, ${data.img2State.y}px) scale(${data.img2State.scale})`;
-                const range2 = document.querySelector(`#control-2 input[type="range"]`);
+                const range2 = document.querySelector(`#control-container-2 input[type="range"]`);
                 if (range2) range2.value = data.img2State.scale;
             }
-            document.getElementById('control-2').style.display = 'flex';
+            document.getElementById('control-container-2').style.display = 'flex';
         }
 
         if (data.playlist1) {
