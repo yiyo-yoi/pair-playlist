@@ -3,19 +3,86 @@ function autoResize(textarea) {
     textarea.style.height = (textarea.scrollHeight) + 'px';
 }
 
-function handleImageUpload(event, imgId, charNum) {
+function handleImageUpload(event, charNum) {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            const imgElement = document.getElementById(imgId);
+            const imgElement = document.getElementById(`img-char${charNum}`);
             imgElement.src = e.target.result;
             imgElement.style.display = 'block';
             imgElement.previousElementSibling.style.display = 'none';
+            
+            // 초기화
+            imgElement.dataset.x = 0;
+            imgElement.dataset.y = 0;
+            imgElement.dataset.scale = 1;
+            imgElement.style.transform = `translate(0px, 0px) scale(1)`;
+            
+            const rangeInput = document.querySelector(`#control-${charNum} input[type="range"]`);
+            if (rangeInput) rangeInput.value = 1;
+            
+            document.getElementById(`control-${charNum}`).style.display = 'flex';
             saveDataToStorage();
         }
         reader.readAsDataURL(file);
     }
+}
+
+// 사진 줌(확대/축소) 조절
+function zoomImage(event, charNum) {
+    const scale = event.target.value;
+    const img = document.getElementById(`img-char${charNum}`);
+    const x = img.dataset.x || 0;
+    const y = img.dataset.y || 0;
+    
+    img.dataset.scale = scale;
+    img.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    saveDataToStorage();
+}
+
+// 사진 마우스/터치 드래그 이동 기능
+function startDrag(event, charNum) {
+    if (event.target.tagName === 'INPUT') return;
+    event.preventDefault();
+    
+    const img = document.getElementById(`img-char${charNum}`);
+    if (img.style.display !== 'block') return;
+
+    let startX = event.clientX || event.touches[0].clientX;
+    let startY = event.clientY || event.touches[0].clientY;
+    
+    let currentX = parseFloat(img.dataset.x || 0);
+    let currentY = parseFloat(img.dataset.y || 0);
+
+    function onMove(e) {
+        let clientX = e.clientX || e.touches[0].clientX;
+        let clientY = e.clientY || e.touches[0].clientY;
+        
+        let dx = clientX - startX;
+        let dy = clientY - startY;
+        
+        let newX = currentX + dx;
+        let newY = currentY + dy;
+        let scale = img.dataset.scale || 1;
+
+        img.dataset.x = newX;
+        img.dataset.y = newY;
+        img.style.transform = `translate(${newX}px, ${newY}px) scale(${scale})`;
+    }
+
+    function onEnd() {
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onEnd);
+        window.removeEventListener('touchmove', onMove);
+        window.removeEventListener('touchend', onEnd);
+        saveDataToStorage();
+    }
+
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onEnd);
+    window.addEventListener('touchmove', onMove);
+    window.addEventListener('touchend', onEnd);
 }
 
 document.getElementById('bgColorPicker').addEventListener('input', (e) => {
@@ -119,18 +186,22 @@ function toggleMemo(btn) {
     saveDataToStorage();
 }
 
-/* 🌟 브라우저 창을 닫으면 지워지고, 새로고침(F5) 시에만 유지되도록 sessionStorage 사용 */
 function saveDataToStorage() {
+    const img1 = document.getElementById('img-char1');
+    const img2 = document.getElementById('img-char2');
+
     const data = {
         bgColor: document.getElementById('bgColorPicker').value,
         textColor: document.getElementById('textColorPicker').value,
         pairName: document.getElementById('pairNameInput').value,
         charName1: document.getElementById('charName1').value,
         quote1: document.getElementById('quote1').value,
-        img1: document.getElementById('img-char1').src,
+        img1: img1.src,
+        img1State: { x: img1.dataset.x || 0, y: img1.dataset.y || 0, scale: img1.dataset.scale || 1 },
         charName2: document.getElementById('charName2').value,
         quote2: document.getElementById('quote2').value,
-        img2: document.getElementById('img-char2').src,
+        img2: img2.src,
+        img2State: { x: img2.dataset.x || 0, y: img2.dataset.y || 0, scale: img2.dataset.scale || 1 },
         playlist1: getPlaylistData(1),
         playlist2: getPlaylistData(2)
     };
@@ -174,6 +245,15 @@ window.addEventListener('DOMContentLoaded', () => {
             img1.src = data.img1;
             img1.style.display = 'block';
             img1.previousElementSibling.style.display = 'none';
+            if (data.img1State) {
+                img1.dataset.x = data.img1State.x;
+                img1.dataset.y = data.img1State.y;
+                img1.dataset.scale = data.img1State.scale;
+                img1.style.transform = `translate(${data.img1State.x}px, ${data.img1State.y}px) scale(${data.img1State.scale})`;
+                const range1 = document.querySelector(`#control-1 input[type="range"]`);
+                if (range1) range1.value = data.img1State.scale;
+            }
+            document.getElementById('control-1').style.display = 'flex';
         }
 
         const q2 = document.getElementById('quote2');
@@ -186,6 +266,15 @@ window.addEventListener('DOMContentLoaded', () => {
             img2.src = data.img2;
             img2.style.display = 'block';
             img2.previousElementSibling.style.display = 'none';
+            if (data.img2State) {
+                img2.dataset.x = data.img2State.x;
+                img2.dataset.y = data.img2State.y;
+                img2.dataset.scale = data.img2State.scale;
+                img2.style.transform = `translate(${data.img2State.x}px, ${data.img2State.y}px) scale(${data.img2State.scale})`;
+                const range2 = document.querySelector(`#control-2 input[type="range"]`);
+                if (range2) range2.value = data.img2State.scale;
+            }
+            document.getElementById('control-2').style.display = 'flex';
         }
 
         if (data.playlist1) {
@@ -225,13 +314,13 @@ async function saveAsImage() {
         div.style.wordBreak = 'break-all';
         div.style.whiteSpace = 'pre-wrap';
         
-      if (input.classList.contains('pair-name-input')) {
+        if (input.classList.contains('pair-name-input')) {
             div.style.borderBottom = '2px solid var(--text-color)';
             div.style.paddingBottom = '10px';
         } else if (input.classList.contains('char-name-input')) {
             div.style.borderBottom = 'none';
-            div.style.marginTop = '20px';    // 이미지 저장 시 위쪽 간격
-            div.style.marginBottom = '20px'; // 이미지 저장 시 아래쪽 간격
+            div.style.marginTop = '20px';
+            div.style.marginBottom = '20px';
         } else if (input.classList.contains('song-title-input')) {
             div.style.fontWeight = 'bold';
         }
