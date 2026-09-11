@@ -151,10 +151,9 @@ body {
     text-align: center;
 }
 
-/* 🌟 간격을 눈에 띄게 확 넓힘 (위 여백 40px, 아래 여백 30px) */
 .char-name-input {
     margin-top: 40px;
-    margin-bottom: 30px;
+    margin-bottom: 0px; /* 아래 여백은 없애고 아래에 빈 줄을 만듭니다 */
     width: 80%;
     text-align: center;
     font-size: 1.4rem;
@@ -175,7 +174,7 @@ body {
 
 /* 한마디 입력 영역 */
 .quote-input {
-    margin-top: 5px;
+    margin-top: 35px; /* 🌟 이 값을 키우면 이름과 한마디 사이 간격이 무조건 넓어집니다! */
     width: 90%;
     text-align: center;
     font-size: 1.05rem;
