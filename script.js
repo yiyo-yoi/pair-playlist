@@ -12,7 +12,7 @@ function handleImageUpload(event, imgId, charNum) {
             imgElement.src = e.target.result;
             imgElement.style.display = 'block';
             imgElement.previousElementSibling.style.display = 'none';
-            saveDataToLocalStorage();
+            saveDataToStorage();
         }
         reader.readAsDataURL(file);
     }
@@ -20,12 +20,12 @@ function handleImageUpload(event, imgId, charNum) {
 
 document.getElementById('bgColorPicker').addEventListener('input', (e) => {
     document.documentElement.style.setProperty('--bg-color', e.target.value);
-    saveDataToLocalStorage();
+    saveDataToStorage();
 });
 
 document.getElementById('textColorPicker').addEventListener('input', (e) => {
     document.documentElement.style.setProperty('--text-color', e.target.value);
-    saveDataToLocalStorage();
+    saveDataToStorage();
 });
 
 function extractYouTubeId(url) {
@@ -78,14 +78,14 @@ function addSongByYouTubeLink(charNum, songData = null) {
             <div class="song-info">
                 <input type="text" class="song-title-input" value="${title}" placeholder="노래 제목" 
                     onfocus="if(this.value==='노래 제목 입력') this.value=''" 
-                    onblur="if(this.value==='') this.value='노래 제목 입력'; saveDataToLocalStorage();"
-                    oninput="saveDataToLocalStorage()">
+                    onblur="if(this.value==='') this.value='노래 제목 입력'; saveDataToStorage();"
+                    oninput="saveDataToStorage()">
                 <input type="text" class="song-artist-input" value="${artist}" placeholder="가수 이름" 
                     onfocus="if(this.value==='가수 이름 입력') this.value=''" 
-                    onblur="if(this.value==='') this.value='가수 이름 입력'; saveDataToLocalStorage();"
-                    oninput="saveDataToLocalStorage()">
+                    onblur="if(this.value==='') this.value='가수 이름 입력'; saveDataToStorage();"
+                    oninput="saveDataToStorage()">
             </div>
-            <button class="delete-btn" onclick="this.closest('.playlist-item').remove(); saveDataToLocalStorage();">×</button>
+            <button class="delete-btn" onclick="this.closest('.playlist-item').remove(); saveDataToStorage();">×</button>
         </div>
         <div class="memo-container ${!memo && isLocked ? 'hidden' : ''}">
             <textarea class="memo-input ${isLocked ? 'locked' : ''}" placeholder="이 노래를 고른 이유는? (선택사항)" ${isLocked ? 'readonly' : ''}>${memo}</textarea>
@@ -94,7 +94,7 @@ function addSongByYouTubeLink(charNum, songData = null) {
     `;
     
     playlistContainer.appendChild(playItem);
-    if (!songData) saveDataToLocalStorage();
+    if (!songData) saveDataToStorage();
 }
 
 function toggleMemo(btn) {
@@ -116,10 +116,11 @@ function toggleMemo(btn) {
         container.removeAttribute('readonly');
         btn.innerText = '확인';
     }
-    saveDataToLocalStorage();
+    saveDataToStorage();
 }
 
-function saveDataToLocalStorage() {
+/* 🌟 브라우저 창을 닫으면 지워지고, 새로고침(F5) 시에만 유지되도록 sessionStorage 사용 */
+function saveDataToStorage() {
     const data = {
         bgColor: document.getElementById('bgColorPicker').value,
         textColor: document.getElementById('textColorPicker').value,
@@ -133,7 +134,7 @@ function saveDataToLocalStorage() {
         playlist1: getPlaylistData(1),
         playlist2: getPlaylistData(2)
     };
-    localStorage.setItem('charPlaylistData', JSON.stringify(data));
+    sessionStorage.setItem('charPlaylistSessionData', JSON.stringify(data));
 }
 
 function getPlaylistData(charNum) {
@@ -151,7 +152,7 @@ function getPlaylistData(charNum) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    const saved = localStorage.getItem('charPlaylistData');
+    const saved = sessionStorage.getItem('charPlaylistSessionData');
     if (!saved) return;
     try {
         const data = JSON.parse(saved);
@@ -198,7 +199,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// 캡처 시 인풋/텍스트에어리어 치환 함수 (캐릭터 이름 밑줄 제거 반영)
 async function saveAsImage() {
     const saveBtn = document.getElementById('saveBtn');
     saveBtn.innerText = '저장 중... ⏳';
@@ -229,7 +229,7 @@ async function saveAsImage() {
             div.style.borderBottom = '2px solid var(--text-color)';
             div.style.paddingBottom = '10px';
         } else if (input.classList.contains('char-name-input')) {
-            div.style.borderBottom = 'none'; // 캡처 시에도 캐릭터 이름 밑줄 없음
+            div.style.borderBottom = 'none';
         } else if (input.classList.contains('song-title-input')) {
             div.style.fontWeight = 'bold';
         }
