@@ -151,10 +151,10 @@ body {
     text-align: center;
 }
 
-/* 🌟 [사진]과 [이름], [이름]과 [한마디] 사이 간격을 넓게 벌리고 밑줄 제거 */
+/* 🌟 간격을 눈에 띄게 확 넓힘 (위 여백 40px, 아래 여백 30px) */
 .char-name-input {
-    margin-top: 35px;
-    margin-bottom: 25px;
+    margin-top: 40px;
+    margin-bottom: 30px;
     width: 80%;
     text-align: center;
     font-size: 1.4rem;
