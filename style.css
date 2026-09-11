@@ -152,8 +152,8 @@ body {
 }
 
 .char-name-input {
-    margin-top: 40px;
-    margin-bottom: 0px; /* 아래 여백은 없애고 아래에 빈 줄을 만듭니다 */
+    margin-top: 60px; /* 🌟 사진과 이름 사이의 위쪽 여백을 넓힙니다 */
+    margin-bottom: 0px; 
     width: 80%;
     text-align: center;
     font-size: 1.4rem;
