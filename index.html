@@ -30,11 +30,11 @@
         </div>
 
         <div class="main-container">
-            <!-- 캐릭터 1 (왼쪽) -->
+           <!-- 캐릭터 1 (왼쪽) -->
             <div class="character-section" id="char1-section">
-                <label class="photo-frame" id="frame-char1" onmousedown="startDrag(event, 1)" ontouchstart="startDrag(event, 1)">
+                <label class="photo-frame" id="frame-char1">
                     <div class="photo-placeholder" id="placeholder-char1">클릭하여<br>사진 업로드</div>
-                    <img id="img-char1" src="" alt="캐릭터 1 사진" data-x="0" data-y="0" data-scale="1">
+                    <img id="img-char1" src="" alt="캐릭터 1 사진" data-x="0" data-y="0" data-scale="1" onmousedown="startDrag(event, 1)" ontouchstart="startDrag(event, 1)">
                     <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 1)">
                 </label>
                 <!-- 사진 크기 조절 슬라이더 -->
@@ -58,9 +58,9 @@
 
             <!-- 캐릭터 2 (오른쪽) -->
             <div class="character-section" id="char2-section">
-                <label class="photo-frame" id="frame-char2" onmousedown="startDrag(event, 2)" ontouchstart="startDrag(event, 2)">
+                <label class="photo-frame" id="frame-char2">
                     <div class="photo-placeholder" id="placeholder-char2">클릭하여<br>사진 업로드</div>
-                    <img id="img-char2" src="" alt="캐릭터 2 사진" data-x="0" data-y="0" data-scale="1">
+                    <img id="img-char2" src="" alt="캐릭터 2 사진" data-x="0" data-y="0" data-scale="1" onmousedown="startDrag(event, 2)" ontouchstart="startDrag(event, 2)">
                     <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 2)">
                 </label>
                 <!-- 사진 크기 조절 슬라이더 -->
