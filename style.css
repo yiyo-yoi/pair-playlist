@@ -151,27 +151,31 @@ body {
     text-align: center;
 }
 
+/* 캐릭터 이름: 밑줄 제거 및 위아래 여백을 대폭 확장 (margin-top: 25px, margin-bottom: 15px) */
 .char-name-input {
-    margin-top: 20px;
+    margin-top: 25px;
+    margin-bottom: 15px;
     width: 80%;
     text-align: center;
     font-size: 1.4rem;
     font-weight: 700;
-    padding: 8px 0;
+    padding: 4px 0;
     border: none;
     background: transparent;
     color: var(--text-color);
+    border-bottom: none !important; /* 밑줄 완전 제거 */
     line-height: 1.4;
     box-sizing: border-box;
 }
 
 .char-name-input:focus {
     outline: none;
-    border-bottom: 2px solid var(--text-color);
+    border-bottom: none !important;
 }
 
+/* 한마디 입력 영역 */
 .quote-input {
-    margin-top: 15px;
+    margin-top: 5px;
     width: 90%;
     text-align: center;
     font-size: 1.05rem;
@@ -193,7 +197,7 @@ body {
 
 .playlist-container {
     width: 100%;
-    margin-top: 25px;
+    margin-top: 30px; /* 플레이리스트와의 간격도 보기 좋게 넓힘 */
 }
 
 .search-box {
