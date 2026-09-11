@@ -198,7 +198,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// 캡처 시 입력창들을 완벽한 텍스트 div로 변환하여 잘림 현상 원천 차단
+// 캡처 시 인풋/텍스트에어리어 치환 함수 (캐릭터 이름 밑줄 제거 반영)
 async function saveAsImage() {
     const saveBtn = document.getElementById('saveBtn');
     saveBtn.innerText = '저장 중... ⏳';
@@ -206,7 +206,6 @@ async function saveAsImage() {
     
     window.scrollTo(0, 0);
     
-    // 입력창들을 일반 텍스트 스타일의 div로 치환하기 위한 백업 배열
     const inputsToSwap = document.querySelectorAll('.pair-name-input, .char-name-input, .quote-input, .song-title-input, .song-artist-input, .memo-input');
     const swappedElements = [];
 
@@ -215,7 +214,6 @@ async function saveAsImage() {
         div.className = input.className + '-swapped';
         div.innerText = input.value || input.placeholder;
         
-        // computed style 복사
         const computed = window.getComputedStyle(input);
         div.style.fontFamily = computed.fontFamily;
         div.style.fontSize = computed.fontSize;
@@ -231,8 +229,7 @@ async function saveAsImage() {
             div.style.borderBottom = '2px solid var(--text-color)';
             div.style.paddingBottom = '10px';
         } else if (input.classList.contains('char-name-input')) {
-            div.style.borderBottom = '2px solid var(--text-color)';
-            div.style.paddingBottom = '8px';
+            div.style.borderBottom = 'none'; // 캡처 시에도 캐릭터 이름 밑줄 없음
         } else if (input.classList.contains('song-title-input')) {
             div.style.fontWeight = 'bold';
         }
@@ -267,7 +264,6 @@ async function saveAsImage() {
         console.error('이미지 저장 실패:', err);
         alert('이미지 저장 중 오류가 발생했습니다.');
     } finally {
-        // 치환했던 요소를 원래대로 원복
         swappedElements.forEach(item => {
             item.input.style.display = '';
             item.div.remove();
