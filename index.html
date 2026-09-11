@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캐릭터 플레이리스트 만들기</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 상단 설정 바 -->
+    <div class="toolbar">
+        <div class="color-picker">
+            <label for="bgColorPicker">배경색</label>
+            <input type="color" id="bgColorPicker" value="#f8f9fa">
+        </div>
+        <div class="color-picker">
+            <label for="textColorPicker">글자색</label>
+            <input type="color" id="textColorPicker" value="#343a40">
+        </div>
+        <button onclick="saveAsImage()" class="save-btn" id="saveBtn">이미지로 저장 📸</button>
+    </div>
+
+    <!-- 캡처되는 메인 영역 -->
+    <div id="capture-area">
+        <!-- 페어 이름 -->
+        <div class="pair-name-container">
+            <div class="pair-name-box">
+                <input type="text" id="pairNameInput" class="pair-name-input" placeholder="페어 이름을 입력하세요" oninput="saveDataToLocalStorage()">
+            </div>
+        </div>
+
+        <div class="main-container">
+            <!-- 캐릭터 1 (왼쪽) -->
+            <div class="character-section" id="char1-section">
+                <label class="photo-frame">
+                    <div class="photo-placeholder" id="placeholder-char1">클릭하여<br>사진 업로드</div>
+                    <img id="img-char1" src="" alt="캐릭터 1 사진">
+                    <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'img-char1', 1)">
+                </label>
+                <input type="text" id="charName1" class="char-name-input" placeholder="캐릭터 1 이름" oninput="saveDataToLocalStorage()">
+                <textarea id="quote1" class="quote-input" placeholder="캐릭터 1의 한 마디" rows="1" oninput="autoResize(this); saveDataToLocalStorage()"></textarea>
+                
+                <div class="playlist-container">
+                    <div class="search-box">
+                        <input type="text" id="search1" placeholder="유튜브 링크(URL)를 입력하세요" onkeypress="if(event.key==='Enter') addSongByYouTubeLink(1)">
+                        <button onclick="addSongByYouTubeLink(1)">추가</button>
+                    </div>
+                    <div class="search-guide">💡 유튜브 영상 링크를 넣으면 앨범아트(썸네일)가 자동으로 등록됩니다! (최대 6곡)</div>
+                    <div id="playlist1" class="my-playlist"></div>
+                </div>
+            </div>
+
+            <!-- 캐릭터 2 (오른쪽) -->
+            <div class="character-section" id="char2-section">
+                <label class="photo-frame">
+                    <div class="photo-placeholder" id="placeholder-char2">클릭하여<br>사진 업로드</div>
+                    <img id="img-char2" src="" alt="캐릭터 2 사진">
+                    <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'img-char2', 2)">
+                </label>
+                <input type="text" id="charName2" class="char-name-input" placeholder="캐릭터 2 이름" oninput="saveDataToLocalStorage()">
+                <textarea id="quote2" class="quote-input" placeholder="캐릭터 2의 한 마디" rows="1" oninput="autoResize(this); saveDataToLocalStorage()"></textarea>
+                
+                <div class="playlist-container">
+                    <div class="search-box">
+                        <input type="text" id="search2" placeholder="유튜브 링크(URL)를 입력하세요" onkeypress="if(event.key==='Enter') addSongByYouTubeLink(2)">
+                        <button onclick="addSongByYouTubeLink(2)">추가</button>
+                    </div>
+                    <div class="search-guide">💡 유튜브 영상 링크를 넣으면 썸네일이 자동으로 등록됩니다! (최대 6곡)</div>
+                    <div id="playlist2" class="my-playlist"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 워터마크 -->
+        <div class="watermark">이요 @lies_are_white</div>
+    </div>
+
+    <!-- html2canvas 라이브러리 -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
