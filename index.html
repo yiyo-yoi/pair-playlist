@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>캐릭터 플레이리스트 만들기</title>
-    <!-- 🌟 브라우저 캐시를 무시하고 최신 스타일을 강제로 읽어오게 수정 -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
     <!-- 상단 설정 바 -->
@@ -33,11 +32,17 @@
         <div class="main-container">
             <!-- 캐릭터 1 (왼쪽) -->
             <div class="character-section" id="char1-section">
-                <label class="photo-frame">
+                <label class="photo-frame" id="frame-char1" onmousedown="startDrag(event, 1)" ontouchstart="startDrag(event, 1)">
                     <div class="photo-placeholder" id="placeholder-char1">클릭하여<br>사진 업로드</div>
-                    <img id="img-char1" src="" alt="캐릭터 1 사진">
-                    <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'img-char1', 1)">
+                    <img id="img-char1" src="" alt="캐릭터 1 사진" data-x="0" data-y="0" data-scale="1">
+                    <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 1)">
                 </label>
+                <!-- 사진 크기 조절 슬라이더 -->
+                <div class="photo-control" id="control-1" style="display: none;">
+                    <span>🔍 크기:</span>
+                    <input type="range" min="0.5" max="3" step="0.05" value="1" oninput="zoomImage(event, 1)">
+                </div>
+                
                 <input type="text" id="charName1" class="char-name-input" placeholder="캐릭터 1 이름" oninput="saveDataToStorage()">
                 <textarea id="quote1" class="quote-input" placeholder="캐릭터 1의 한 마디" rows="1" oninput="autoResize(this); saveDataToStorage()"></textarea>
                 
@@ -46,18 +51,24 @@
                         <input type="text" id="search1" placeholder="유튜브 링크(URL)를 입력하세요" onkeypress="if(event.key==='Enter') addSongByYouTubeLink(1)">
                         <button onclick="addSongByYouTubeLink(1)">추가</button>
                     </div>
-                    <div class="search-guide">💡 유튜브 영상 링크를 넣으면 앨범아트(썸네일)가 자동으로 등록됩니다! (최대 6곡)</div>
+                    <div class="search-guide">💡 유튜브 영상 링크를 넣으면 썸네일이 자동으로 등록됩니다! (최대 6곡)</div>
                     <div id="playlist1" class="my-playlist"></div>
                 </div>
             </div>
 
             <!-- 캐릭터 2 (오른쪽) -->
             <div class="character-section" id="char2-section">
-                <label class="photo-frame">
+                <label class="photo-frame" id="frame-char2" onmousedown="startDrag(event, 2)" ontouchstart="startDrag(event, 2)">
                     <div class="photo-placeholder" id="placeholder-char2">클릭하여<br>사진 업로드</div>
-                    <img id="img-char2" src="" alt="캐릭터 2 사진">
-                    <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'img-char2', 2)">
+                    <img id="img-char2" src="" alt="캐릭터 2 사진" data-x="0" data-y="0" data-scale="1">
+                    <input type="file" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 2)">
                 </label>
+                <!-- 사진 크기 조절 슬라이더 -->
+                <div class="photo-control" id="control-2" style="display: none;">
+                    <span>🔍 크기:</span>
+                    <input type="range" min="0.5" max="3" step="0.05" value="1" oninput="zoomImage(event, 2)">
+                </div>
+
                 <input type="text" id="charName2" class="char-name-input" placeholder="캐릭터 2 이름" oninput="saveDataToStorage()">
                 <textarea id="quote2" class="quote-input" placeholder="캐릭터 2의 한 마디" rows="1" oninput="autoResize(this); saveDataToStorage()"></textarea>
                 
@@ -73,7 +84,7 @@
         </div>
 
         <!-- 워터마크 -->
-        <div class="watermark">이요 @lies_are_white</div>
+        <div class="watermark">By. 닉네임 / 아이디</div>
     </div>
 
     <!-- html2canvas 라이브러리 -->
