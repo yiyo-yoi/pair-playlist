@@ -3,7 +3,7 @@ function autoResize(textarea) {
     textarea.style.height = (textarea.scrollHeight) + 'px';
 }
 
-// [사진 변경] 버튼을 눌렀을 때 숨겨진 file input을 작동시키는 함수
+// [사진 변경] 버튼을 눌렀을 때 파일 선택창 띄우기
 function triggerFileInput(charNum) {
     document.getElementById(`file-char${charNum}`).click();
 }
@@ -18,7 +18,7 @@ function handleImageUpload(event, charNum) {
             imgElement.style.display = 'block';
             imgElement.previousElementSibling.style.display = 'none';
             
-            // 새 사진을 올리면 위치와 줌 초기화
+            // 새 사진 업로드 시 위치 및 크기 초기화
             imgElement.dataset.x = 0;
             imgElement.dataset.y = 0;
             imgElement.dataset.scale = 1;
@@ -34,7 +34,7 @@ function handleImageUpload(event, charNum) {
     }
 }
 
-// 사진 줌(확대/축소) 조절
+// 사진 크기(줌) 조절 슬라이더
 function zoomImage(event, charNum) {
     const scale = event.target.value;
     const img = document.getElementById(`img-char${charNum}`);
@@ -46,10 +46,11 @@ function zoomImage(event, charNum) {
     saveDataToStorage();
 }
 
-// 사진 마우스/터치 드래그 이동 기능
+// 사진 마우스 드래그로 상하좌우 이동
 function startDrag(event, charNum) {
-    // 최초 클릭 시 플레이스홀더 영역이면 파일 업로드 창을 띄움
     const img = document.getElementById(`img-char${charNum}`);
+    
+    // 사진이 아직 없을 때 프레임을 누르면 파일 업로드 창 띄우기
     if (img.style.display !== 'block') {
         triggerFileInput(charNum);
         return;
