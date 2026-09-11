@@ -151,10 +151,10 @@ body {
     text-align: center;
 }
 
-/* 캐릭터 이름: 밑줄 제거 및 위아래 여백을 대폭 확장 (margin-top: 25px, margin-bottom: 15px) */
+/* 🌟 사진 아래와 한마디 위쪽의 간격을 훨씬 넉넉하게 수정 (위 여백 30px, 아래 여백 20px) 및 밑줄 완전 제거 */
 .char-name-input {
-    margin-top: 25px;
-    margin-bottom: 15px;
+    margin-top: 30px;
+    margin-bottom: 20px;
     width: 80%;
     text-align: center;
     font-size: 1.4rem;
@@ -163,7 +163,7 @@ body {
     border: none;
     background: transparent;
     color: var(--text-color);
-    border-bottom: none !important; /* 밑줄 완전 제거 */
+    border-bottom: none !important; 
     line-height: 1.4;
     box-sizing: border-box;
 }
@@ -197,7 +197,7 @@ body {
 
 .playlist-container {
     width: 100%;
-    margin-top: 30px; /* 플레이리스트와의 간격도 보기 좋게 넓힘 */
+    margin-top: 30px;
 }
 
 .search-box {
